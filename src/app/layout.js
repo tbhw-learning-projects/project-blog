@@ -8,7 +8,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./styles.css";
 import StyledComponentsRegistry from "@/lib/registry";
-import MaybeReduceMotion from "@/lib/ReducedMotion";
+import UiPreferences from "@/lib/UiPreferences";
+import { cookies } from "next/headers";
 
 const mainFont = Work_Sans({
   subsets: ["latin"],
@@ -25,28 +26,27 @@ const monoFont = Spline_Sans_Mono({
 
 export const metadata = {
   title: BLOG_TITLE,
-  description: "A wonderful blog about JavaScript"
-}
+  description: "A wonderful blog about JavaScript",
+};
 
 function RootLayout({ children }) {
-  // TODO: Dynamic theme depending on user preference
-  const theme = "light";
+  const mode = cookies().get("color-mode")?.value ?? "light";
 
   return (
     <html
       lang="en"
       className={clsx(mainFont.variable, monoFont.variable)}
-      data-color-theme={theme}
-      style={theme === "light" ? LIGHT_TOKENS : DARK_TOKENS}
+      data-color-theme={mode}
+      style={mode === "light" ? LIGHT_TOKENS : DARK_TOKENS}
     >
       <body>
-        <StyledComponentsRegistry>
-          <MaybeReduceMotion>
-          <Header theme={theme} />
-          <main>{children}</main>
-          <Footer />
-          </MaybeReduceMotion>
-        </StyledComponentsRegistry>
+        <UiPreferences >
+          <StyledComponentsRegistry>
+            <Header theme={mode} />
+            <main>{children}</main>
+            <Footer />
+          </StyledComponentsRegistry>
+        </UiPreferences>
       </body>
     </html>
   );
