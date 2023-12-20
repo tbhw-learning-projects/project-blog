@@ -4,7 +4,7 @@ import BlogSummaryCard from '@/components/BlogSummaryCard';
 
 import styles from './homepage.module.css';
 import { getBlogPostList } from '@/helpers/file-helpers';
-import { BlogList } from './ui';
+import { BlogLink, BlogList } from './ui';
 
 
 async function Home() {
@@ -18,12 +18,14 @@ async function Home() {
 
       <BlogList>
         {posts.map(({slug, title, abstract, publishedOn}) => <li key={slug}>
-          <BlogSummaryCard
-            slug={slug}
-            title={title}
-            abstract={abstract}
-            publishedOn={publishedOn}
-          />
+          <BlogLink href={`/${slug}`}>
+            <BlogSummaryCard
+              slug={slug}
+              title={title}
+              abstract={abstract}
+              publishedOn={publishedOn}
+            />
+          </BlogLink>
         </li>)}
       </BlogList>
     </div>
