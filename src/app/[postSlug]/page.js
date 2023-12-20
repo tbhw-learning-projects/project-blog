@@ -8,17 +8,28 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import CodeSnippet from "@/components/CodeSnippet";
 import dynamic from "next/dynamic";
 import CircularColorsDemo from "@/components/CircularColorsDemo";
+import { notFound } from "next/navigation";
 
 const DivisionGroupsDemo = dynamic(() =>
   import("@/components/DivisionGroupsDemo")
 );
 
 export async function generateMetadata({ params }) {
-  const {
-    frontmatter: { title, abstract },
-  } = await loadBlogPost(params.postSlug);
-
-  return { title, description: abstract };
+  try {
+    const {
+      frontmatter: { title, abstract },
+    } = await loadBlogPost(params.postSlug);
+    return { title, description: abstract };
+  } catch (error) {
+    if (error instanceof Error) {
+      if ("code" in error) {
+        if (error.code === "ENOENT") {
+          return notFound();
+        }
+      }
+    }
+    console.error(error);
+  }
 }
 
 async function BlogPost({ params }) {

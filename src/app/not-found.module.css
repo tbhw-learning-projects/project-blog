@@ -1,0 +1,9 @@
+.error-name {
+    margin-top: clamp(48px, 2.5rem + 4vw, 108px);
+    text-align: center;
+}
+
+.error-message {
+    margin-top: 48px;
+    text-align: center;
+}
