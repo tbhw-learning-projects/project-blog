@@ -26,7 +26,7 @@ export const getBlogPostList = React.cache(async function getBlogPostList() {
   );
 });
 
-export async function loadBlogPost(slug) {
+export const loadBlogPost = React.cache(async function loadBlogPost(slug) {
   const rawContent = await readFile(
     `/content/${slug}.mdx`
   );
@@ -35,7 +35,7 @@ export async function loadBlogPost(slug) {
     matter(rawContent);
 
   return { frontmatter, content };
-}
+});
 
 function readFile(localPath) {
   return fs.readFile(
