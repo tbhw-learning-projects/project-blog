@@ -1,8 +1,9 @@
+import React from 'react'
 import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 
-export async function getBlogPostList() {
+export const getBlogPostList = React.cache(async function getBlogPostList() {
   const fileNames = await readDirectory('/content');
 
   const blogPosts = [];
@@ -23,7 +24,7 @@ export async function getBlogPostList() {
   return blogPosts.sort((p1, p2) =>
     p1.publishedOn < p2.publishedOn ? 1 : -1
   );
-}
+});
 
 export async function loadBlogPost(slug) {
   const rawContent = await readFile(
