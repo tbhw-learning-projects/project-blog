@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./styles.css";
 import StyledComponentsRegistry from "@/lib/registry";
+import MaybeReduceMotion from "@/lib/ReducedMotion";
 
 const mainFont = Work_Sans({
   subsets: ["latin"],
@@ -40,9 +41,11 @@ function RootLayout({ children }) {
     >
       <body>
         <StyledComponentsRegistry>
+          <MaybeReduceMotion>
           <Header theme={theme} />
           <main>{children}</main>
           <Footer />
+          </MaybeReduceMotion>
         </StyledComponentsRegistry>
       </body>
     </html>
